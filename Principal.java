@@ -4,6 +4,6 @@ public class Principal {
         Fil fil2 = new Fil("Pepe");
         fil1.start();
         fil2.start();
-        System.out.println("Fils iniciats des de Principal.");
+        System.out.println("Termina thread main");
     }
 }
