@@ -5,6 +5,7 @@ public class Fil extends Thread {
         this.name = name;
     }
 
+    // comportamet 1:
     @Override
     public void run() {
       
@@ -13,4 +14,6 @@ public class Fil extends Thread {
             }   
         System.out.println("Termina el fil " + name);
     }
+
+
 }
