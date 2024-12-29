@@ -48,8 +48,8 @@ public class Futbolista extends Thread{
             "Aspas", "Messi", "MBapé"
         };
 
-        Futbolista[] jugadors = new Futbolista[nomsJugadors.length];
-        for (int i = 0; i < nomsJugadors.length; i++) {
+        Futbolista[] jugadors = new Futbolista[num_jugador];
+        for (int i = 0; i < num_jugador; i++) {
             jugadors[i] = new Futbolista(nomsJugadors[i]); // Es crea un fil per a cada jugador
         }
 
@@ -65,7 +65,6 @@ public class Futbolista extends Thread{
             try {
                 jugador.join(); // Espera que el fil acabi
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
 
