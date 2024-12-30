@@ -34,7 +34,7 @@ public class Futbolista extends Thread{
     public void run() {
         for (int i = 0; i < num_tirades; i++) {
             ntirades++;
-            if (random.nextFloat() < probabilitat) {
+            if (random.nextFloat() < probabilitat) { //si el nombre es menor al de la probabilitat que es 0.5 marca gol
                 ngols++;
             }
         }
