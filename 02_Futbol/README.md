@@ -20,3 +20,6 @@ Requeriments:
 ![p15](image-4.png)
 ### Sortida del programa:
 ![p16](image-5.png)
+## Part 1
+- Demostra que TOTS els programes en Java s’executen en un fil. Per fer-ho crea una classe MainDemoFil.java on captures el fil actual en execució i mostris el nom, la prioritat i el toString() de la classe.
+![p17](image-6.png)
