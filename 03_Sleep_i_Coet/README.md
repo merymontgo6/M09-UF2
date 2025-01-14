@@ -7,28 +7,28 @@ Activitat per l’ús de Sleep en una activitat específica i després implement
 
 S’inicialitzi amb un nom però utilitzi la variable name de Thread
 
-![alt text](image-4.png)
+![alt text](imatges/image-4.png)
 
 Tingui constància de l’instant en que s’ha creat (no ficat en execució, sinó ha estat construïda → constructor)
 
-![alt text](image-1.png)
+![alt text](imatges/image-1.png)
 
 En l’execució repeteixi 10 vegades:
 ◦ Mostrar → nom, num_iteració, interval_aleatori, total de temps des de la construcció
 ◦ Dormir l’interval_aleatori mostrat
 
-![alt text](image-2.png)
+![alt text](imatges/image-2.png)
 
 Tingui un mètode principal on:
 ◦ Es creen dues instàncies de DormAleatori una anomenada «Joan» i l’altra «Pep» i
 ◦ Les fiqui en marxa.
 ◦ Mostri que s’acaba el mètode
 
-![alt text](image-3.png)
+![alt text](imatges/image-3.png)
 
 
 ### Sortida del programa:
-![img](image.png)
+![img](imatges/image.png)
 
 
 ## Part 2
