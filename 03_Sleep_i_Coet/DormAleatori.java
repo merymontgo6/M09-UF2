@@ -9,15 +9,14 @@ public class DormAleatori extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++ ){
+        for (int i = 0; i < 10; i++ ){ //10 vegades
             // Generar un interval aleatori
-            int intervalAleatori = (int) (Math.random() * 950) + 50; // intervalAleatori creat per chat
+            int intervalAleatori = (int) (Math.random() * 1000); // intervalAleatori
             long tempsTotal = System.currentTimeMillis() - creacio; //temps de la creació del fil
 
-            System.out.println(getName() + "(" + i + ") a dormir " + intervalAleatori + "ms total " + tempsTotal);
+            System.out.println(getName() + "(" + i + ") a dormir " + intervalAleatori + " ms total " + tempsTotal);
 
             try { // Dormir durant l'interval aleatori generat
-
                 Thread.sleep(intervalAleatori);
             } catch (InterruptedException e) {}
         }
