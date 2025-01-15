@@ -2,46 +2,53 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//Primerament ha de llegir la potencia al coet, despres demanar la potencia i fer el setpotencia, si llegir i set potencia son iguals startall (tots els motors a la vegada començen), despres mentre while potencia <> 0 {llegir();, setPotencia();}
+//Segon, al Motor, while (true) {while(potenciaActual = potenciaObjectiu) ...} despres un sleep(100):, despres si (potencia == 0) break;
+
 public class Coet {
     private Motor[] motors;
 
     public Coet() {
-        motors = new Motor[4]; // 4 motores
+        motors = new Motor[4]; // 4 motors
         for (int i = 0; i < 4; i++) {
-            motors[i] = new Motor(i); // Asignar un id a cada motor
+            motors[i] = new Motor(i); // Asignar num a cada motor
         }
     }
 
-    public void passaAPotencia(int p) {
-        if (p < 0 || p > 10) {
-            System.out.println("Error: La potència ha de ser entre 0 i 10.");
-            return;
-        }
-        // Establece la potencia en todos los motores
+    //Primerament ha de llegir la potencia al coet
+    public int llegir() throws NumberFormatException, IOException { 
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        System.out.print("Introdueix la potència objectiu (0 per aturar): ");
+        int potencia = Integer.parseInt(reader.readLine());
+        return potencia;
+    }
+
+    //Despres demanar la potencia i fer el setpotencia
+    public void passaAPotencia(int p) throws NumberFormatException, IOException {
+        do {
+            p = llegir();
+            if (p < 0 || p > 10) {
+                System.out.println("Error: La potència ha de ser entre 0 i 10.");
+            }
+        } while (p < 0 || p > 10);
+    
         System.out.println("Passant a potència " + p);
         for (Motor motor : motors) {
             motor.setPotencia(p);
         }
+        startAll();
     }
 
-    public void arranca() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            int potencia;
-            do {
-                System.out.print("Introdueix la potència objectiu (0 per aturar): ");
-                potencia = Integer.parseInt(reader.readLine());
-                if (potencia != 0) {
-                    passaAPotencia(potencia);
-                }
-            } while (potencia != 0);
-            System.out.println("Coet aturat.");
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+    //si llegir i set potencia son iguals startall, aixo ho fa el metode run de Motor.java
+    public void startAll() {
+        for (Motor motor : motors) {
+            new Thread(motor).start();
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Coet coet = new Coet();
-        coet.arranca();
+        coet.passaAPotencia(0); // Llegeix i ajusta la potència fins que sigui 0
     }
 }

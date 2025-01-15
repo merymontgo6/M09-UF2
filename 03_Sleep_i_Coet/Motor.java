@@ -1,42 +1,60 @@
-import java.util.Random;
-
 public class Motor extends Thread {
     private int potenciaActual;
     private int potenciaObjectiu;
     private int idMotor;
 
+    //Primerament ha de llegir la potencia al coet, despres demanar la potencia i fer el setpotencia, startall (tots els motors a la vegada començen), despres mentre while potencia <> 0 {llegir();, setPotencia();}
+    //Segon, al Motor, while (true) {while(potenciaActual = potenciaObjectiu) ...} despres un sleep(100):, despres si (potencia == 0) break;
+
+    //Inicialment està aturat i per tant la potència objectiu i la potència actuals són 0
     public Motor(int idMotor) {
         this.idMotor = idMotor;
-        this.potenciaActual = 0; // Inicialmente aturado
+        this.potenciaActual = 0;
         this.potenciaObjectiu = 0;
     }
 
-    public int getPotenciaActual() {
-        return potenciaActual;
-    }
-
+    //se li estableix la potència objectiu amb el setter
     public void setPotencia(int p) {
         potenciaObjectiu = p;
-        this.start(); // Comienza el hilo para cambiar la potencia
     }
+//set potencia, despres start de tots els motors, sense synchronized
+//while true com a condicio dels motors
+//mentre pob sigui dif poten actual sleep aleatori  i fer que aarribi a potencia actual amb un while
+//hi han dos whiles
+//sleep 100  quan ja son iguals per donar temps de que s'afegeix un altre potencia
+//perimer lectura, set potencia, start, while pote ! 0, while true poob = poobj
+
+//System.out.println("Motor " + idMotor + ": Incre. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
+//System.out.println("Motor " + idMotor + ": FerRes. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
 
     @Override
     public void run() {
-        // Se incrementa o decrementa la potencia en pasos de 1
-        int increment = (potenciaActual < potenciaObjectiu) ? 1 : -1;
+        boolean haMostratFerRes = false; // Per evitar imprimir FerRes múltiples vegades
 
-        try {
-            // Cambia la potencia en pasos de 1 hasta alcanzar la potencia objetivo
-            while (potenciaActual != potenciaObjectiu) {
-                potenciaActual += increment; // Incrementa o decrementa en pasos de 1
-                System.out.println("Motor " + idMotor + ": Incre. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
-                Thread.sleep(new Random().nextInt(1000) + 1000); // Tiempo aleatorio entre 1 y 2 segundos
-            }
+        while (true) {
+            try {
+                if (potenciaActual < potenciaObjectiu) {
+                    potenciaActual++;
+                    System.out.println("Motor " + idMotor + ": Incre. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
+                    haMostratFerRes = false; // Reset si fem un canvi
+                } else if (potenciaActual > potenciaObjectiu) {
+                    potenciaActual--;
+                    System.out.println("Motor " + idMotor + ": Decre. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
+                    haMostratFerRes = false; // Reset si fem un canvi
+                } else if (!haMostratFerRes) {
+                    System.out.println("Motor " + idMotor + ": FerRes Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
+                    haMostratFerRes = true; // Marquem que ja s'ha mostrat "FerRes"
+                }
 
-            // Cuando un motor llega a su potencia objetivo, muestra que terminó
-            System.out.println("Motor " + idMotor + ": FerRes. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                // Si la potència objectiu és 0, aturar el motor
+                if (potenciaObjectiu == 0) {
+                    break;
+                }
+
+                // Simular temps real amb pauses
+                Thread.sleep(100);
+
+            } catch (InterruptedException ex) {}
         }
     }
 }
