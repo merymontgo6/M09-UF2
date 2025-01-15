@@ -17,6 +17,7 @@ public class Motor extends Thread {
     public void setPotencia(int p) {
         potenciaObjectiu = p;
     }
+    
 //set potencia, despres start de tots els motors, sense synchronized
 //while true com a condicio dels motors
 //mentre pob sigui dif poten actual sleep aleatori  i fer que aarribi a potencia actual amb un while
@@ -46,14 +47,10 @@ public class Motor extends Thread {
                     haMostratFerRes = true; // Marquem que ja s'ha mostrat "FerRes"
                 }
 
-                // Si la potència objectiu és 0, aturar el motor
                 if (potenciaObjectiu == 0) {
                     break;
                 }
-
-                // Simular temps real amb pauses
                 Thread.sleep(100);
-
             } catch (InterruptedException ex) {}
         }
     }

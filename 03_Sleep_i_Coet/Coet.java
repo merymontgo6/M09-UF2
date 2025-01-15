@@ -49,6 +49,6 @@ public class Coet {
 
     public static void main(String[] args) throws IOException {
         Coet coet = new Coet();
-        coet.passaAPotencia(0); // Llegeix i ajusta la potència fins que sigui 0
+        coet.passaAPotencia(0);
     }
 }
