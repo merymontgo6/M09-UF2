@@ -2,16 +2,16 @@ import java.util.Random;
 
 public class Treballador extends Thread {
 
-    private final float nou_anual_brut;
+    private final float sou_anual_brut;
     private final  int edat_inici_treball;
     private final int edat_fi_treball;
     private int edat_actual;
     private float cobrat;
     private final Random random;
 
-    public Treballador(String nom, float nou_anual_brut, int edat_inici_treball, int edat_fi_treball) {
-        super (nom);
-        this.nou_anual_brut = nou_anual_brut;
+    public Treballador(String nom, float sou_anual_brut, int edat_inici_treball, int edat_fi_treball) {
+        super(nom);
+        this.sou_anual_brut = sou_anual_brut;
         this.edat_inici_treball = edat_inici_treball;
         this.edat_fi_treball = edat_fi_treball;
         this.edat_actual = 0;
@@ -20,11 +20,11 @@ public class Treballador extends Thread {
     }
 
     private void cobra() {
-        cobrat += nou_anual_brut / 12;
+        cobrat += sou_anual_brut / 12;
     }
 
     private void pagaImpostos() {
-        cobrat -= (nou_anual_brut / 12) * 0.24;
+        cobrat -= (sou_anual_brut / 12) * 0.24;
     }
 
     @Override

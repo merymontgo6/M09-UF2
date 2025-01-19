@@ -1,3 +1,5 @@
+
+
 public class Administracio extends Thread {
 
     private final int num_poblacio_activa = 50;
@@ -25,16 +27,14 @@ public class Administracio extends Thread {
 
     public static void main(String[] args) {
         Administracio administracio = new Administracio();
-        administracio.start(); // Comença la simulació
+        administracio.start();
         try {
             administracio.join();
         } catch (InterruptedException e) {}
 
-        for (Treballador treballador : administracio.poblacio_activa) {
-            System.out.printf("%s -> edat: %d / total: %.2f%n",
-                    treballador.getName(),
-                    treballador.getEdat(),
-                    treballador.getCobrat());
+        for (int i = 0; i < administracio.poblacio_activa.length; i++) {
+            Treballador treballador = administracio.poblacio_activa[i];
+            System.out.println("Ciutadà " + i + " -> edat: " + treballador.getEdat() + " / total: " + treballador.getCobrat());
         }
     }
 }
