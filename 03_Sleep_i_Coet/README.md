@@ -73,7 +73,8 @@ correcta (està entre 0 i 10) i estableixi la potencia dels 4 motors a p o doni 
 
 • Fes que Coet llegeixi contínuament per consola la potència objectiu i immediatament la
 estableixi a tots els seus motors fins que la potència objectiu sigui 0
-- Aquest punt no es va conseguir completar dins del termini establert.
+
+![alt text](imatges/image-15.png)
 
 ### Sortida del programa:
-![alt text](imatges/image-13.png)
+![alt text](imatges/image14.png)
