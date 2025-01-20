@@ -12,29 +12,25 @@ public class Administracio extends Thread {
         }
     }
 
-    @Override
-    public void run() {
-        for (Treballador treballador : poblacio_activa) {
+    public static void main(String[] args) {
+        Administracio administracio = new Administracio();
+        // Inicia
+        for (Treballador treballador : administracio.poblacio_activa) {
             treballador.start();
         }
 
-        for (Treballador treballador : poblacio_activa) {
+        // Esperar
+        for (Treballador treballador : administracio.poblacio_activa) {
             try {
                 treballador.join();
             } catch (InterruptedException e) {}
         }
-    }
 
-    public static void main(String[] args) {
-        Administracio administracio = new Administracio();
-        administracio.start();
-        try {
-            administracio.join();
-        } catch (InterruptedException e) {}
-
+        // Mostrar resultats
         for (int i = 0; i < administracio.poblacio_activa.length; i++) {
             Treballador treballador = administracio.poblacio_activa[i];
-            System.out.println("Ciutadà " + i + " -> edat: " + treballador.getEdat() + " / total: " + treballador.getCobrat());
+            System.out.printf("Ciutadà-%d -> edat: %d / total: %.2f\n",
+                i, treballador.getEdat(), treballador.getCobrat());
         }
     }
 }
