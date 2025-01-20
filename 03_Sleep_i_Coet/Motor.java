@@ -50,17 +50,17 @@ public class Motor extends Thread {
 
                 else if (potenciaObjectiu == 0) {
                     
-                    while (potenciaActual > 0) { // Decrementa solo hasta 0
+                    while (potenciaActual > 0) { // decreix nomes fins 0
                         potenciaActual--;
                         System.out.println("Motor " + idMotor + ": Decre. Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
                         haMostratFerRes = false; // Reset si fem un canvi
                     }
-                    // Mostrar "FerRes" después de llegar a 0
+                    // Mostra "FerRes" despres d'arribar a 0
                     if (potenciaActual == 0 && !haMostratFerRes) {
                         System.out.println("Motor " + idMotor + ": FerRes Objectiu: " + potenciaObjectiu + " Actual: " + potenciaActual);
                         haMostratFerRes = true;
                     }
-                    break; // Salimos después de alcanzar 0 y mostrar "FerRes"
+                    break; // sortir despres de 0 y mostra "FerRes"
                 }
                 Thread.sleep(100);
             } catch (InterruptedException ex) {}
