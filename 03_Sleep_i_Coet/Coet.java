@@ -26,18 +26,20 @@ public class Coet {
 
     //Despres demanar la potencia i fer el setpotencia
     public void passaAPotencia(int p) throws NumberFormatException, IOException {
-        do {
-            p = llegir();
-            if (p < 0 || p > 10) {
-                System.out.println("Error: La potència ha de ser entre 0 i 10.");
-            }
-        } while (p < 0 || p > 10);
+        while (true) {
+            do {
+                p = llegir();
+                if (p < 0 || p > 10) {
+                    System.out.println("Error: La potència ha de ser entre 0 i 10.");
+                }
+            } while (p < 0 || p > 10); // Solicita nuevamente si el valor no es válido.
     
-        System.out.println("Passant a potència " + p);
-        for (Motor motor : motors) {
-            motor.setPotencia(p);
+            System.out.println("Passant a potència " + p);
+            for (Motor motor : motors) {
+                motor.setPotencia(p);
+            }
+            startAll();
         }
-        startAll();
     }
 
     //si llegir i set potencia son iguals startall, aixo ho fa el metode run de Motor.java
