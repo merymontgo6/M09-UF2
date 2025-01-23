@@ -34,25 +34,15 @@ public class Soci extends Thread {
                     if (mes % 2 == 0) { // Mesos parells: fer ingrés
                         float nouSaldo = compte.getSaldo() + aportacio;
                         compte.setSaldo(nouSaldo);
-                        System.out.printf("Soci %s: Ingressats %.2f euros. Saldo actual: %.2f euros.%n",
-                                this.getName(), aportacio, compte.getSaldo());
                     } else { // Mesos imparells: fer retirada
                         if (compte.getSaldo() >= aportacio) {
                             float nouSaldo = compte.getSaldo() - aportacio;
                             compte.setSaldo(nouSaldo);
-                            System.out.printf("Soci %s: Retirats %.2f euros. Saldo actual: %.2f euros.%n",
-                                    this.getName(), aportacio, compte.getSaldo());
-                        } else {
-                            System.out.printf("Soci %s: No hi ha prou saldo per retirar %.2f euros.%n",
-                                    this.getName(), aportacio);
                         }
                     }
-
                     // Simular espera aleatòria
                     Thread.sleep(random.nextInt(esperaMax));
-                } catch (InterruptedException e) {
-                    System.out.println("El fil ha estat interromput.");
-                }
+                } catch (InterruptedException e) {}
             }
         }
     }

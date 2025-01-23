@@ -5,8 +5,11 @@ public class Associacio extends Thread {
     private final Soci[] socis; //socis[]
 
     //Un constructor
-    private Associacio() {
+    public Associacio(Compte compte) {
         this.socis = new Soci[numSocis];
+        for (int i = 0; i < numSocis; i++) {
+            this.socis[i] = new Soci(compte); // Inicializar cada Soci con el Compte pasado
+        }
     }
     //iniciaCompteTempsSocis
     private void iniciaCompteTempsSocis() {
@@ -26,29 +29,18 @@ public class Associacio extends Thread {
     
     //mostraBalancComptes
     private void mostraBalancComptes() {
-        for (int i = 0; i <= numSocis; i++) {
+        for (int i = 0; i < numSocis; i++) {
             System.out.println("Saldo: " + socis[i].getCompte().getSaldo());
         }
     }
-
+    //Associacio, new associacio se li dona compte i per compte s'anomena els metodes.
     public static void main(String[] args) {
-        Associacio associacio = new Associacio();
-
-        for(Soci soci : associacio.socis) {
-            soci.start();
-        }
-        for(Soci soci : associacio.socis) {
-            try {
-                soci.join();
-            } catch (InterruptedException e) {
-            }
-        }
-        //Associacio, new associacio se li dona compte i per compte s'anomena els metodes.
-        for (int i = 0; i < associacio.numSocis; i++) {
-            associacio.esperaPeriodeSocis();
-            associacio.mostraBalancComptes();
-            associacio.iniciaCompteTempsSocis();
-        }
+        // Crear una instancia de Compte y pasarla a Associacio
+        Compte compte = Compte.getInstance();
+        Associacio associacio = new Associacio(compte);
+        
+        associacio.iniciaCompteTempsSocis();
+        associacio.esperaPeriodeSocis();
+        associacio.mostraBalancComptes();
     }
-
 }
