@@ -5,7 +5,7 @@ public class Compte {
     private float saldo; //amb un saldo
 
     public Compte() {
-        this.saldo = 0;
+        this.saldo = 0.0f;
     }
 
      //el patró singleton implementat de manera que garanteixi que només existeix una instància.
@@ -18,12 +18,11 @@ public class Compte {
     }
 
     //El getter i setter de saldo.
-    public float getSaldo() {
+    public synchronized float getSaldo() {
         return saldo;
     }
 
-    public float setSaldo(float saldo) {
+    public synchronized void setSaldo(float saldo) {
         this.saldo = saldo;
-        return saldo;
     }
 }

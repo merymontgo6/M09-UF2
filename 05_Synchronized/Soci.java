@@ -31,6 +31,7 @@ public class Soci extends Thread {
         for (int i = 1; i <= maxAnys; i++) { // Iterar per anys
             for (int j = 1; j <= 12; j++) { // Iterar per mesos
                 try {
+                    synchronized (compte) {
                     if (j % 2 == 0) { // Mesos parells: fer ingrés
                         float nouSaldo = compte.getSaldo() + aportacio;
                         compte.setSaldo(nouSaldo);
@@ -38,6 +39,7 @@ public class Soci extends Thread {
                         float nouSaldo = compte.getSaldo() - aportacio;
                         compte.setSaldo(nouSaldo);
                     }
+                }
                     // Simular espera aleatòria
                     Thread.sleep(random.nextInt(esperaMax));
                 } catch (InterruptedException e) {}
