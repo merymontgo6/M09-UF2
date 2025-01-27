@@ -28,17 +28,15 @@ public class Soci extends Thread {
 
     @Override
     public void run() {
-        for (int any = 1; any <= maxAnys; any++) { // Iterar per anys
-            for (int mes = 1; mes <= 12; mes++) { // Iterar per mesos
+        for (int i = 1; i <= maxAnys; i++) { // Iterar per anys
+            for (int j = 1; j <= 12; j++) { // Iterar per mesos
                 try {
-                    if (mes % 2 == 0) { // Mesos parells: fer ingrés
+                    if (j % 2 == 0) { // Mesos parells: fer ingrés
                         float nouSaldo = compte.getSaldo() + aportacio;
                         compte.setSaldo(nouSaldo);
                     } else { // Mesos imparells: fer retirada
-                        if (compte.getSaldo() >= aportacio) {
-                            float nouSaldo = compte.getSaldo() - aportacio;
-                            compte.setSaldo(nouSaldo);
-                        }
+                        float nouSaldo = compte.getSaldo() - aportacio;
+                        compte.setSaldo(nouSaldo);
                     }
                     // Simular espera aleatòria
                     Thread.sleep(random.nextInt(esperaMax));

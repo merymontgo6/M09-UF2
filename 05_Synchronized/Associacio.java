@@ -1,5 +1,3 @@
-
-
 public class Associacio extends Thread {
     private final int numSocis = 1000; //numSocis = 1000
     private final Soci[] socis; //socis[]
@@ -11,6 +9,7 @@ public class Associacio extends Thread {
             this.socis[i] = new Soci(compte); // Inicializar cada Soci con el Compte pasado
         }
     }
+    
     //iniciaCompteTempsSocis
     private void iniciaCompteTempsSocis() {
         for (Soci soci : socis) {
