@@ -20,12 +20,13 @@ public class Assistent extends Thread {
     //si es fa una reserva i no hi ha places disponibles s'ha de quedar esperant
     //si es cancel·la una reserva i no hi ha ningú esperant s'ha de quedar esperant
     //si es cancel·la una reserva i hi ha algú esperant s'ha de notificar
+
     @Override
     public void run() {
         while (true) {
             try {
                 Thread.sleep(random.nextInt(1000));
-                if (random.nextBoolean()) { // 50% de probabilitats de fer una reserva
+                if (random.nextDouble() < 0.50) { // 50% probabilitat de fer una reserva
                     esdeveniment.ferReserva(this);
                 } else {
                     esdeveniment.cancelaReserva(this);
@@ -35,4 +36,36 @@ public class Assistent extends Thread {
             }
         }
     }
+
+    /*@Override //mètode 70% per reservar
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(random.nextInt(1000));
+                if (random.nextDouble() < 0.70) { // 70% probabilitat de fer una reserva
+                    esdeveniment.ferReserva(this);
+                } else { // 30% probabilitat de cancel·lar una reserva
+                    esdeveniment.cancelaReserva(this);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+    /*@Override //mètode 30% per reservar
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(random.nextInt(1000));
+                if (random.nextDouble() < 0.30) { // 30% probabilitat de fer una reserva
+                    esdeveniment.ferReserva(this);
+                } else { // 70% probabilitat de cancel·lar una reserva
+                    esdeveniment.cancelaReserva(this);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
 }
