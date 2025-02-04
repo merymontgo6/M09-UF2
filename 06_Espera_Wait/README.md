@@ -60,6 +60,36 @@ De la mateixa manera, quan un assistent cancel·la una reserva, ha de notificar 
 ### Preguntes teòriques
 #### 1. Per què s'atura l'execució al cap d'un temps?
 
+L'execució s'atura perquè els fils poden quedar bloquejats en wait() si no es crida notifyAll(). 
+Això passa quan ningú cancel·la reserves, deixant els fils en espera indefinidament. 
+Com a resultat, el programa sembla aturat perquè no hi ha activitat.
+
 #### 2. Què passaria si en lloc de una probabilitat de 50%-50% fora de 70%  (ferReserva) -30% (cancel·lar)? I si foren al revés les probabilitats? 
-→ Mostra la porció de codi modificada i la sortida resultant en cada un dels 2 casos 
+##### → Mostra la porció de codi modificada i la sortida resultant en cada un dels 2 casos 
+Si la probabilitat fora de 70% de ferReserva hi hauria més demandes de reserves que cancel·lacions.
+Això fa que no hi hagi places disponibles. Per tant,, molts assistents quedarien bloquejats en wait() esperant una plaça lliure. 
+Això podria fer que el programa s’aturi aparentment, ja que pocs fils podrien continuar executant-se.
+
+Codi:
+
+![alt text](imatges/image11.png)
+
+Resultat: Es fan les reserves però els altres no poden, ja que no les cance.len.
+
+![alt text](imatges/image12.png)
+
+Per el contrari, si la posibilitat fora de 70% per cancelarReserva s’alliberarien més places del que es reserven. 
+Això evitaria que els fils quedessin bloquejats en wait(), però genera que hi hagin moltes places disponibles però pocs assistents reservant-les.
+
+Codi:
+
+![alt text](imatges/image13.png)
+
+Resultat:
+
+![alt text](imatges/image14.png)
+
 #### 3. Perquè creus que fa falta la llista i no valdria només amb una variable sencera de reserves? 
+
+La llista d'assistents és necessària perquè permet saber qui ha fet la reserva, mentre que una variable sencera només diu el total. 
+Sense la llista, no podríem verificar si un assistent té una reserva abans de cancel·lar-la, cosa que podria causar errors.
