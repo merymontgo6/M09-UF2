@@ -40,13 +40,32 @@ Les forquilles estan compartides cada una amb el filòsof del costat forquilla e
 ![alt text](imatges/image7.png)
 
 ### Requeriments Filòsof: 
-- El mètode principal que mosti la taula i cridi taula 
+- El mètode principal que mosti la taula i cridi taula
+
+![alt text](imatges/image13.png)
+
 - una forquillaDreta i una forquilla Esquerra 
 - un comptador de la gana que té 
-- amb un constructor amb nom 
-- un mètode menjar 
-- un mètode pensar 
+
+![alt text](imatges/image10.png)
+
+- amb un constructor
+
+![alt text](imatges/image9.png)
+
+
+- un mètode menjar
+
+![alt text](imatges/image14.png)
+
+- un mètode pensar
+
+![alt text](imatges/image8.png)
+
 - el mètode d'execució 
 
+![alt text](imatges/image11.png)
 
 ### Sortida del programa:
+
+![alt text](imatges/image12.png)
