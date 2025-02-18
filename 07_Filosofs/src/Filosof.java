@@ -3,9 +3,9 @@ import java.util.Random;
 
 public class Filosof implements Runnable {
     //una forquillaDreta i una forquillaEsquerra
-    private Forquilla forquillaDreta;
-    private Forquilla forquillaEsquerra;
-    private Random random;
+    private final Forquilla forquillaDreta;
+    private final Forquilla forquillaEsquerra;
+    private final Random random;
     private int gana; //un comptador de la gana que té
     private final String nom; //amb un constructor amb nom
 
@@ -19,25 +19,45 @@ public class Filosof implements Runnable {
     
     //un mètode menjar 
     public void menjar() {
-        if (forquillaEsquerra.getEnUs() == false && forquillaDreta.getEnUs() == false) {
+        if (!forquillaEsquerra.getEnUs()) {
             forquillaEsquerra.setEnUs(true);
-            forquillaDreta.setEnUs(true);
-            
-            System.out.println(nom + " està menjant.");
-            try {
-                Thread.sleep(1000 + random.nextInt(1000));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getNum());
+
+            // Intentar agafar la forquilla dreta
+            if (!forquillaDreta.getEnUs()) {
+                forquillaDreta.setEnUs(true);
+                System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getNum());
+
+                // Menjar
+                System.out.println("Filòsof: " + nom + " menja");
+                try {
+                    Thread.sleep(1000 + random.nextInt(1000)); // Menjar entre 1s i 2s
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+                // Deixar les forquilles
+                forquillaDreta.setEnUs(false);
+                forquillaEsquerra.setEnUs(false);
+                System.out.println("Filòsof: " + nom + " ha acabat de menjar");
+                gana = 0;
+            } else {
+                // Si no pot agafar la forquilla dreta, deixar l'esquerra i esperar
+                forquillaEsquerra.setEnUs(false);
+                System.out.println("Filòsof: " + nom + " deixa l'esquerra (" + forquillaEsquerra.getNum() + ") i espera (dreta ocupada)");
+                gana++;
+                System.out.println("Filòsof: " + nom + " gana=" + gana);
+                try {
+                    Thread.sleep(500 + random.nextInt(500)); // Esperar entre 0.5s i 1s
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
-            
-            System.out.println(nom + " ha acabat de menjar.");
-            forquillaDreta.setEnUs(false);
-            forquillaEsquerra.setEnUs(false);
-            gana = 0;
         } else {
-            // Esperar un tiempo antes de volver a intentarlo
+            // Si no pot agafar la forquilla esquerra, esperar
+            System.out.println("Filòsof: " + nom + " no pot agafar l'esquerra (" + forquillaEsquerra.getNum() + ") i espera");
             try {
-                Thread.sleep(500 + random.nextInt(500));
+                Thread.sleep(500 + random.nextInt(500)); // Esperar entre 0.5s i 1s
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -56,7 +76,7 @@ public class Filosof implements Runnable {
     }
 
     // el mètode d'execució
-    //@Override
+    @Override
     public void run() {
         while (true) {
             pensar();

@@ -1,5 +1,5 @@
 public class Taula extends Thread {
-    private Filosof[] comensals; //amb uns comensals(Filosofs)
+    private final Filosof[] comensals; //amb uns comensals(Filosofs)
     private Forquilla[] forquilles; //amb unes forquilles(Forquilla)
 
     //Un constructor amb el número de filòsofs que cree els filòsofs, les forquilles i les assignacions
@@ -9,7 +9,7 @@ public class Taula extends Thread {
         
         //asignació de cada forquilla i cada filosof
         for (int i = 0; i < num; i++) {
-            forquilles = new Forquilla[i];
+            forquilles[i] = new Forquilla(i);
         }
         for (int i = 0; i < num; i++) {
             comensals[i] = new Filosof("fil" + i, forquilles[i], forquilles[(i + 1) % num]);
@@ -18,17 +18,17 @@ public class Taula extends Thread {
 
     //un metode showTaula que mostri cada filosof i les seves forquilles
     public void showTaula() {
-        for (Filosof filòsof : comensals) {
-            System.out.println("Comensal: " + filòsof.getNom() + 
-            " esq: " + filòsof.getForquillaEsquerra().getNum() + 
-            " dret: " + filòsof.getForquillaDreta().getNum());
+        for (Filosof filosof : comensals) {
+            System.out.println("Comensal: " + filosof.getNom() + 
+            " esq: " + filosof.getForquillaEsquerra().getNum() + 
+            " dret: " + filosof.getForquillaDreta().getNum());
         }
     }
 
     //un metode cridarATaula que inicii els filosofs de la taula
     public void cridarATaula() {
         for (Filosof filosof : comensals) {
-            new Thread().start();
+            new Thread(filosof).start();
         }
     }
 
