@@ -1,6 +1,6 @@
 public class Taula extends Thread {
     private final Filosof[] comensals; //amb uns comensals(Filosofs)
-    private Forquilla[] forquilles; //amb unes forquilles(Forquilla)
+    private final Forquilla[] forquilles; //amb unes forquilles(Forquilla)
 
     //Un constructor amb el número de filòsofs que cree els filòsofs, les forquilles i les assignacions
     public Taula(int num) {
