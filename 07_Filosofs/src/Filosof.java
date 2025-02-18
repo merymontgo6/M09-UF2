@@ -1,24 +1,20 @@
 
 import java.util.Random;
 
-public class Filosof {
-
+public class Filosof implements Runnable {
     //una forquillaDreta i una forquillaEsquerra
     private Forquilla forquillaDreta;
     private Forquilla forquillaEsquerra;
     private Random random;
-
-    //un comptador de la gana que té
-    private int gana;
-
-    //amb un constructor amb nom
-    private final String nom;
+    private int gana; //un comptador de la gana que té
+    private final String nom; //amb un constructor amb nom
 
     public Filosof(String nom, Forquilla forquillaEsquerra, Forquilla forquillaDreta) {
         this.nom = nom;
         this.forquillaEsquerra = forquillaEsquerra;
         this.forquillaDreta = forquillaDreta;
         this.gana = 0;
+        this.random = new Random();
     }
     
     //un mètode menjar 
@@ -50,7 +46,7 @@ public class Filosof {
 
     // un mètode pensar
     public void pensar() {
-        System.out.println(nom + " està pensant.");
+        System.out.println("Filòsof: " + nom + " està pensant.");
         try {
             Thread.sleep(1000 + random.nextInt(1000)); // pensar entre 1s i 2s
         } catch (InterruptedException e) {
@@ -71,11 +67,11 @@ public class Filosof {
         return nom;
     }
 
-    public Forquilla getLeftForquilla() {
+    public Forquilla getForquillaEsquerra() {
         return forquillaEsquerra;
     }
 
-    public Forquilla getRightForquilla() {
+    public Forquilla getForquillaDreta() {
         return forquillaDreta;
     }
 

@@ -1,16 +1,13 @@
 public class Forquilla {
     private int num;
+    private boolean enUs = false; //un flag enUs
 
     //Un constructor amb el número 
     public Forquilla(int num) {
         this.num = num;
     }
 
-    //un flag enUs
-    private boolean enUs = false;
-
     //setters i getters
-
     public int getNum() {
         return num;
     }
