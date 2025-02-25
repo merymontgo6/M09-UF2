@@ -19,93 +19,94 @@ public class Filosof implements Runnable{
     }
 
     public void menjar() {
-        //Metode de l'activitat passada, s'ha de canviar i afegir el nous metodes 
-        if (!forquillaEsquerra.getEnUs()) {
-            forquillaEsquerra.setEnUs(true);
-            System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getNumPropietari());
-
-            // Intentar agafar la forquilla dreta
-            if (!forquillaDreta.getEnUs()) {
-                forquillaDreta.setEnUs(true);
-                System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getNumPropietari());
-
-                // Menjar
-                System.out.println("Filòsof: " + nom + " menja");
-                try {
-                    Thread.sleep(1000 + random.nextInt(1000)); // Menjar entre 1s i 2s
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                // Deixar les forquilles
-                forquillaDreta.setEnUs(false);
-                forquillaEsquerra.setEnUs(false);
-                System.out.println("Filòsof: " + nom + " ha acabat de menjar");
-                gana = 0;
-            } else {
-                // Si no pot agafar la forquilla dreta, deixar l'esquerra i esperar
-                forquillaEsquerra.setEnUs(false);
-                System.out.println("Filòsof: " + nom + " deixa l'esquerra (" + forquillaEsquerra.getNumPropietari() + ") i espera (dreta ocupada)");
-                gana++;
-                System.out.println("Filòsof: " + nom + " gana=" + gana);
-                try {
-                    Thread.sleep(500 + random.nextInt(500)); // Esperar entre 0.5s i 1s
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        } else {
-            // Si no pot agafar la forquilla esquerra, esperar
-            System.out.println("Filòsof: " + nom + " no pot agafar l'esquerra (" + forquillaEsquerra.getNumPropietari() + ") i espera");
-            try {
-                Thread.sleep(500 + random.nextInt(500)); // Esperar entre 0.5s i 1s
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+        System.out.println("Filòsof: " + nom + " menja");
+        try {
+            Thread.sleep(1000 + random.nextInt(1000)); // menjar entre 1s i 2s
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+        gana = 0; // després de menjar, la gana es reinicia
+        System.out.println("Filòsof: " + nom + " ha acabat de menjar");
     }
+    
 
     public void agafarForquilles() {
-        synchronized (forquillaEsquerra) {
+        while (true) {
             agafaForquillaEsquerra();
+            boolean dretaAdquirida = false;
+            // Intentem agafar la dreta sense quedar bloquejat indefinidament
             synchronized (forquillaDreta) {
-                agafaForquillaDreta();
-                if (forquillaEsquerra.getEnUs() && forquillaDreta.getEnUs()) {
-                    menjar();
+                if (!forquillaDreta.getEnUs()) {
+                    forquillaDreta.setEnUs(true);
+                    forquillaDreta.setNumPropietari(numComensal);
+                    dretaAdquirida = true;
+                }
+            }
+            if (dretaAdquirida) {
+                System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getNumPropietari());
+                break;// S'han aconseguit les dues forquilles
+                
+            } else {
+                // No ha pogut agafar la dreta: allibera la esquerra i espera
+                synchronized (forquillaEsquerra) {
+                    forquillaEsquerra.setEnUs(false);
+                    forquillaEsquerra.setNumPropietari(Forquilla.LLIURE);
+                    forquillaEsquerra.notifyAll();
+                }
+                // Incrementem la gana i mostrem el missatge
+                gana++;
+                System.out.println("Filòsof: " + nom + " gana: " + gana);
+                try {
+                    Thread.sleep(500 + random.nextInt(500)); // espera entre 0.5s i 1s
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         }
     }
 
     public void agafaForquillaEsquerra() {
-        while (forquillaEsquerra.getEnUs()) {
-            try {
-                forquillaEsquerra.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        synchronized (forquillaEsquerra) {
+            while (forquillaEsquerra.getEnUs()) {
+                try {
+                    forquillaEsquerra.wait();
+                    System.out.println("Filòsof: " + nom + " no pot agafar l'esquerra (" + forquillaEsquerra.getNumPropietari() + ") i espera");
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
+            // Marquem la forquilla com a en ús i assignem el número del filòsof
+            forquillaEsquerra.setEnUs(true);
+            forquillaEsquerra.setNumPropietari(numComensal);
+            System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getNumPropietari());
         }
-        forquillaEsquerra.setEnUs(true);
     }
 
     public void agafaForquillaDreta() {
-        while (forquillaDreta.getEnUs()) {
-            try {
-                forquillaDreta.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        synchronized (forquillaDreta) {
+            while (forquillaDreta.getEnUs()) {
+                try {
+                    forquillaDreta.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
+            // Marquem la forquilla com a en ús i assignem el número del filòsof
+            forquillaDreta.setEnUs(true);
+            forquillaDreta.setNumPropietari(numComensal);
+            System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getNumPropietari());
         }
-        forquillaDreta.setEnUs(true);
     }
 
     public void deixarForquilles() {
         synchronized (forquillaEsquerra) {
             forquillaEsquerra.setEnUs(false);
+            forquillaEsquerra.setNumPropietari(Forquilla.LLIURE);
             forquillaEsquerra.notifyAll();
         }
         synchronized (forquillaDreta) {
             forquillaDreta.setEnUs(false);
+            forquillaDreta.setNumPropietari(Forquilla.LLIURE);
             forquillaDreta.notifyAll();
         }
     }

@@ -8,7 +8,7 @@ public class Taula extends Thread{
         
         //asignació de cada forquilla i cada filosof
         for (int i = 0; i < num; i++) {
-            forquilles[i] = new Forquilla(i);
+            forquilles[i] = new Forquilla(Forquilla.LLIURE);
         }
         for (int i = 0; i < num; i++) {
             comensals[i] = new Filosof("fil" + i, forquilles[i], forquilles[(i + 1) % num], i);
