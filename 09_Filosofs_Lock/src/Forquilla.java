@@ -3,7 +3,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Forquilla {
     private int num;
-    public ReentrantLock bloqueig;
+    public ReentrantLock bloqueig = new ReentrantLock(true);
 
 
     public Forquilla(int num) {

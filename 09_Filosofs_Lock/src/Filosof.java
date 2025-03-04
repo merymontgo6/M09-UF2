@@ -1,8 +1,8 @@
 import java.util.Random;
 
 public class Filosof implements Runnable{
-    private int iniciGana;
-    private int fiGana;
+    private long iniciGana;
+    private long fiGana;
     private int gana; 
     private final Forquilla forquillaEsquerra;
     private final Forquilla forquillaDreta;
@@ -14,31 +14,41 @@ public class Filosof implements Runnable{
         this.forquillaEsquerra = forquillaEsquerra;
         this.forquillaDreta = forquillaDreta;
     }
+    
+    public void menjar() throws InterruptedException{
+        fiGana = System.currentTimeMillis();
+        gana = calcularGana();
+        System.out.println(nom + " menja amb gana " + gana);
 
-    public void menjar() {
-        forquillaEsquerra.agafar();
-        forquillaDreta.agafar();
-        gana = (int) System.currentTimeMillis() - iniciGana;
-        System.out.println("Filòsof: " + nom + " menja");
-        //FALTA: Després espera reseteja la gana i deixa les forquilles
-        forquillaEsquerra.deixar();
-        forquillaDreta.deixar();
+        Thread.sleep(1000 + random.nextInt(1000));
+        
+        System.out.println(nom + " ha acabat de menjar");
+        ganaCero();
+    }
+    
+    private void ganaCero() {
+        gana = 0;
+    }
+
+    private int calcularGana() {
+        gana = (int) ((System.currentTimeMillis() - iniciGana) / 1000);
+        return gana;
     }
 
     public void agafarForquilles() {
         agafarForquillaEsquerra();
         agafarForquillaDreta();
-        System.out.println("Filòsof: " + nom + " ha agafat les dues forquilles");
+        System.out.println(nom + " té forquilles esq(" + 
+            forquillaEsquerra.getNum() + ") dreta(" + 
+            forquillaDreta.getNum() + ")");    
     }
 
     public void agafarForquillaEsquerra() {
         forquillaEsquerra.agafar();
-        System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getNum());
     }
 
     public void agafarForquillaDreta() {
         forquillaDreta.agafar();
-        System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getNum());
     }
 
     public void deixarForquilles() {
@@ -47,32 +57,26 @@ public class Filosof implements Runnable{
         System.out.println("Filòsof: " + nom + " ha deixat les forquilles");
     }
 
-    public void pensar() {
-        //iniciGana es un comptador de temps en segons real
+    public void pensar() throws InterruptedException {
+        System.out.println(nom + " pensant");
         iniciGana = (int) System.currentTimeMillis();
-        System.out.println("Filòsof: " + nom + " està pensant.");
-        try {
-            Thread.sleep(1000 + random.nextInt(1000)); // pensar entre 1s i 2s
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        //gana++;
+        Thread.sleep(1000 + random.nextInt(1000));
     }
 
     @Override
     public void run() {
-        pensar();
-        agafarForquilles();
-        menjar();
-        deixarForquilles();
-    }
-
-    public void calcularGana() {
-
-    }
-
-    public void resetGana() {
-        gana = 0;
+        while (!Thread.currentThread().isInterrupted()) { // Millor pràctica
+            try {
+                pensar();
+                agafarForquilles();
+                menjar();
+                deixarForquilles();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println(nom + " ha estat interromput");
+                break;
+            }
+        }
     }
 
     public String getNom() {
