@@ -31,8 +31,7 @@ public class Filosof implements Runnable{
     }
 
     private int calcularGana() {
-        gana = (int) ((System.currentTimeMillis() - iniciGana) / 1000);
-        return gana;
+        return (int) ((System.currentTimeMillis() - iniciGana) / 1000);
     }
 
     public void agafarForquilles() {
@@ -59,7 +58,7 @@ public class Filosof implements Runnable{
 
     public void pensar() throws InterruptedException {
         System.out.println(nom + " pensant");
-        iniciGana = (int) System.currentTimeMillis();
+        iniciGana = System.currentTimeMillis();
         Thread.sleep(1000 + random.nextInt(1000));
     }
 
