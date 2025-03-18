@@ -1,55 +1,57 @@
-public class Fumador extends Thread {
-    private Estanc estanc;
-    private int id;
+import java.util.Random;
+
+public class Fumador implements Runnable {
+    private final Estanc estanc;
+    private final int id;
     private Tabac tabac;
     private Llumi llumi;
     private Paper paper;
-    private int numFumadas = 0;
+    private int numFumades = 0;
 
     public Fumador(Estanc estanc, int id) {
         this.estanc = estanc;
         this.id = id;
     }
 
-    public void fuma() {
+    public void fuma() throws InterruptedException{
         try {
-            
-        } catch (Exception e) {
+            System.out.println("Fumador " + id + " fumant");
+            Thread.sleep(500 + new Random().nextInt(500));
+            tabac = null;
+            paper = null;
+            llumi = null;
+            numFumades++;
+            System.out.println("Fumador " + id + " ha fumat " + numFumades + " vegades");
+        } catch (InterruptedException e) {
         }
     }
 
-    public void compraTabac() {
+    public void compraTabac() throws InterruptedException {
         tabac = estanc.venTabac();
+        System.out.println("Fumador " + id + " comprant Tabac");
     }
 
-    public void compraPaper() {
+    public void compraPaper() throws InterruptedException {
         paper = estanc.venPaper();
+        System.out.println("Fumador " + id + " comprant Paper");
     }
 
-    public void compraLlumi() {
+    public void compraLlumi() throws InterruptedException {
         llumi = estanc.venLlumi();
+        System.out.println("Fumador " + id + " comprant Llumí");
     }
 
     @Override
     public void run() {
-        while (numFumadas < 3) {
-            try {
+        try {
+            while (numFumades < 3) {
                 compraTabac();
                 compraPaper();
                 compraLlumi();
-                
-                if (tabac != null && paper != null && llumi != null) {
-                    System.out.println("Fumador " + id + " fumant");
-                    fuma();
-                    numFumadas++;
-                } else {
-                    Thread.sleep(100); // Wait if ingredients not available
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
+                fuma();
             }
-        }
-        System.out.println("Fumador " + id + " ha fumat " + numFumadas + " vegades");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }     
     }
 }
